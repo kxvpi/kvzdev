@@ -1,1421 +1,212 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portafolio de kavaxpi, creador de plugins y Network Developer para servidores Minecraft.">
-    <title>Portafolio | kavaxpi</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <script>document.documentElement.classList.add('js');</script>
-    <style>
-        :root {
-            --bg: #0c0e11;
-            --bg-soft: #12161a;
-            --panel: rgba(20, 24, 28, 0.86);
-            --panel-strong: #171c21;
-            --line: rgba(255, 255, 255, 0.12);
-            --line-strong: rgba(255, 255, 255, 0.2);
-            --text: #f7f2e8;
-            --muted: #aeb7bf;
-            --dim: #737f8a;
-            --accent: #f1ae47;
-            --accent-2: #51d031;
-            --accent-3: #83a8ff;
-            --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
-            --radius: 8px;
-            --max: 1180px;
-        }
-
-        * {
-            box-sizing: border-box;
-            letter-spacing: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 88px;
-        }
-
-        body {
-            margin: 0;
-            color: var(--text);
-            background:
-                radial-gradient(circle at 78% 8%, rgba(241, 174, 71, 0.12), transparent 26%),
-                radial-gradient(circle at 12% 24%, rgba(49, 208, 170, 0.1), transparent 30%),
-                linear-gradient(180deg, #0d1113 0%, #111719 48%, #0b0e10 100%),
-                var(--bg);
-            font-family: "Inter", system-ui, sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-            background-size: 72px 72px;
-            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 78%);
-            pointer-events: none;
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background:
-                linear-gradient(120deg, rgba(49, 208, 170, 0.08), transparent 30%),
-                linear-gradient(300deg, rgba(241, 174, 71, 0.08), transparent 34%);
-            pointer-events: none;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        .wrap {
-            width: min(var(--max), calc(100% - 40px));
-            margin: 0 auto;
-        }
-
-        .site-nav {
-            position: fixed;
-            inset: 0 0 auto;
-            z-index: 50;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(12, 14, 17, 0.78);
-            backdrop-filter: blur(20px) saturate(1.3);
-        }
-
-        .nav-inner {
-            height: 72px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-        }
-
-        .brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text);
-            font-family: "JetBrains Mono", monospace;
-            font-weight: 700;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .brand-mark {
-            width: 34px;
-            height: 34px;
-            display: inline-grid;
-            place-items: center;
-            border: 1px solid rgba(241, 174, 71, 0.38);
-            border-radius: var(--radius);
-            color: var(--accent);
-            background: rgba(241, 174, 71, 0.08);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-links a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            border-radius: var(--radius);
-            color: var(--muted);
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: color 0.2s ease, background 0.2s ease;
-        }
-
-        .nav-links a:hover,
-        .nav-links a:focus-visible {
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.08);
-            outline: none;
-        }
-
-        .menu-toggle {
-            width: 42px;
-            height: 42px;
-            display: none;
-            place-items: center;
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.06);
-            cursor: pointer;
-        }
-
-        .hero {
-            min-height: 78vh;
-            display: flex;
-            align-items: flex-end;
-            padding: 112px 0 42px;
-            position: relative;
-            background:
-                linear-gradient(90deg, rgba(9, 12, 14, 0.8), transparent 70%),
-                radial-gradient(circle at 76% 38%, rgba(49, 208, 170, 0.15), transparent 24%);
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            width: min(48vw, 620px);
-            aspect-ratio: 1;
-            right: -10vw;
-            top: 12%;
-            border: 1px solid rgba(49, 208, 170, 0.2);
-            border-radius: 50%;
-            box-shadow: 0 0 0 28px rgba(49, 208, 170, 0.025), 0 0 0 56px rgba(241, 174, 71, 0.025);
-            pointer-events: none;
-        }
-
-        .hero::after {
-            content: "";
-            position: absolute;
-            inset: auto 0 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(241, 174, 71, 0.6), rgba(49, 208, 170, 0.4), transparent);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 760px;
-            padding: 34px 0;
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.82rem;
-            font-weight: 700;
-            margin-bottom: 18px;
-        }
-
-        .eyebrow::before {
-            content: "";
-            width: 34px;
-            height: 1px;
-            background: currentColor;
-        }
-
-        h1,
-        h2,
-        h3,
-        p {
-            margin-top: 0;
-        }
-
-        h1 {
-            margin-bottom: 22px;
-            font-size: 3.05rem;
-            line-height: 0.96;
-            font-weight: 900;
-        }
-
-        .hero-name {
-            color: var(--accent-2);
-            text-shadow: 0 0 32px rgba(49, 208, 170, 0.18);
-        }
-
-        .hero-text {
-            max-width: 650px;
-            color: var(--muted);
-            font-size: 1.05rem;
-            margin-bottom: 28px;
-        }
-
-        .hero-actions,
-        .contact-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .btn {
-            min-height: 46px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border: 1px solid transparent;
-            border-radius: var(--radius);
-            padding: 0 18px;
-            color: #111417;
-            background: var(--accent);
-            font-weight: 800;
-            text-decoration: none;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-        }
-
-        .btn:hover,
-        .btn:focus-visible {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 35px rgba(241, 174, 71, 0.22);
-            outline: none;
-        }
-
-        .btn.secondary {
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.07);
-            border-color: var(--line);
-        }
-
-        .btn.secondary:hover,
-        .btn.secondary:focus-visible {
-            border-color: rgba(49, 208, 170, 0.5);
-            box-shadow: 0 16px 35px rgba(49, 208, 170, 0.12);
-        }
-
-        .hero-meta {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            width: min(760px, 100%);
-            margin-top: 30px;
-        }
-
-        .metric {
-            padding: 14px;
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            background: rgba(12, 14, 17, 0.48);
-            backdrop-filter: blur(12px);
-        }
-
-        .metric strong {
-            display: block;
-            color: var(--text);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 1.55rem;
-            line-height: 1.1;
-        }
-
-        .metric span {
-            display: block;
-            color: var(--muted);
-            font-size: 0.82rem;
-            margin-top: 6px;
-        }
-
-        .section {
-            padding: 84px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .section-head {
-            display: grid;
-            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
-            gap: 32px;
-            align-items: end;
-            margin-bottom: 34px;
-        }
-
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.82rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .section-label i {
-            color: var(--accent-2);
-        }
-
-        .section h2 {
-            color: var(--text);
-            font-size: 2.35rem;
-            line-height: 1.08;
-            margin-bottom: 0;
-        }
-
-        .section-intro {
-            color: var(--muted);
-            margin-bottom: 0;
-        }
-
-        .profile-grid,
-        .skills-grid,
-        .plugin-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .profile-card,
-        .skill-card,
-        .plugin-card,
-        .work-card,
-        .review-card,
-        .experience-card {
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            background: var(--panel);
-            box-shadow: var(--shadow);
-        }
-
-        .profile-card,
-        .skill-card {
-            padding: 22px;
-            min-height: 224px;
-            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
-        }
-
-        .profile-card:hover,
-        .skill-card:hover,
-        .plugin-card:hover,
-        .work-card:hover,
-        .review-card:hover,
-        .experience-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(241, 174, 71, 0.38);
-            background: rgba(25, 30, 35, 0.96);
-        }
-
-        .icon-box {
-            width: 44px;
-            height: 44px;
-            display: grid;
-            place-items: center;
-            border: 1px solid rgba(49, 208, 170, 0.26);
-            border-radius: var(--radius);
-            color: var(--accent-2);
-            background: rgba(49, 208, 170, 0.08);
-            margin-bottom: 18px;
-        }
-
-        .profile-card h3,
-        .skill-card h3,
-        .work-card h3,
-        .review-card h3,
-        .experience-card h3 {
-            font-size: 1.05rem;
-            margin-bottom: 10px;
-        }
-
-        .profile-card p,
-        .skill-card p,
-        .work-card p,
-        .review-card p,
-        .experience-card p {
-            color: var(--muted);
-            margin-bottom: 0;
-            font-size: 0.94rem;
-        }
-
-        .tag-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 18px;
-        }
-
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            min-height: 28px;
-            padding: 0 10px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 999px;
-            color: #d9e7e2;
-            background: rgba(255, 255, 255, 0.055);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.76rem;
-            white-space: nowrap;
-        }
-
-        .tag.hot {
-            border-color: rgba(241, 174, 71, 0.34);
-            color: #ffe0a8;
-            background: rgba(241, 174, 71, 0.08);
-        }
-
-        .showcase-grid {
-            display: grid;
-            grid-template-columns: 1.18fr 0.82fr;
-            gap: 18px;
-            align-items: start;
-        }
-
-        .work-grid,
-        .review-grid {
-            display: grid;
-            gap: 18px;
-        }
-
-        .work-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .work-card,
-        .review-card {
-            overflow: hidden;
-            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
-        }
-
-        .plugin-card {
-            display: flex;
-            min-height: 260px;
-            flex-direction: column;
-            padding: 22px;
-            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
-        }
-
-        .plugin-card .icon-box {
-            color: var(--accent);
-            border-color: rgba(241, 174, 71, 0.3);
-            background: rgba(241, 174, 71, 0.08);
-        }
-
-        .plugin-card .icon-box img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
-        }
-
-        .plugin-card p {
-            flex: 1;
-            color: var(--muted);
-            font-size: 0.94rem;
-        }
-
-        .plugin-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            min-height: 42px;
-            margin-top: 20px;
-            border: 1px solid rgba(241, 174, 71, 0.34);
-            border-radius: var(--radius);
-            color: #ffe0a8;
-            background: rgba(241, 174, 71, 0.1);
-            font-size: 0.86rem;
-            font-weight: 800;
-            text-decoration: none;
-            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-        }
-
-        .plugin-link:hover,
-        .plugin-link:focus-visible {
-            transform: translateY(-2px);
-            border-color: var(--accent);
-            background: rgba(241, 174, 71, 0.18);
-            outline: none;
-        }
-
-        .work-card.featured {
-            grid-column: 1 / -1;
-        }
-
-        .work-media {
-            position: relative;
-            aspect-ratio: 16 / 9;
-            overflow: hidden;
-            background: #101418;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-        }
-
-        .work-card:not(.featured) .work-media {
-            aspect-ratio: 1 / 1;
-        }
-
-        .work-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.45s ease;
-        }
-
-        .work-card:hover .work-media img {
-            transform: scale(1.045);
-        }
-
-        .work-type {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            min-height: 30px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0 10px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 999px;
-            color: var(--text);
-            background: rgba(12, 14, 17, 0.76);
-            backdrop-filter: blur(10px);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.74rem;
-            font-weight: 700;
-        }
-
-        .work-body,
-        .review-card {
-            padding: 18px;
-        }
-
-        .review-card {
-            min-height: 182px;
-        }
-
-        .review-stars {
-            display: flex;
-            gap: 4px;
-            color: var(--accent);
-            margin-bottom: 12px;
-        }
-
-        .review-author {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-top: 18px;
-            color: var(--dim);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.78rem;
-        }
-
-        .experience-list {
-            display: grid;
-            gap: 14px;
-        }
-
-        .experience-card {
-            display: grid;
-            grid-template-columns: 72px minmax(0, 1fr) auto;
-            gap: 18px;
-            align-items: center;
-            padding: 18px;
-            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
-        }
-
-        .server-logo {
-            width: 64px;
-            height: 64px;
-            display: grid;
-            place-items: center;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.13);
-            border-radius: var(--radius);
-            background: #11161a;
-            color: var(--accent);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.68rem;
-            font-weight: 700;
-            text-align: center;
-            line-height: 1.1;
-        }
-
-        .server-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 4px;
-        }
-
-        .fallback {
-            display: none;
-        }
-
-        .experience-meta {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-        }
-
-        .role,
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            min-height: 34px;
-            padding: 0 12px;
-            border: 1px solid rgba(131, 168, 255, 0.28);
-            border-radius: 999px;
-            color: #dce7ff;
-            background: rgba(131, 168, 255, 0.08);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.76rem;
-            white-space: nowrap;
-        }
-
-        .role i,
-        .status i {
-            width: 1em;
-            text-align: center;
-        }
-
-        .status {
-            border-color: rgba(255, 255, 255, 0.14);
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .status-active {
-            border-color: rgba(49, 208, 170, 0.34);
-            color: #c9fff2;
-            background: rgba(49, 208, 170, 0.1);
-        }
-
-        .status-inactive {
-            border-color: rgba(174, 183, 191, 0.28);
-            color: #d4dbe1;
-            background: rgba(174, 183, 191, 0.08);
-        }
-
-        .status-resign {
-            border-color: rgba(241, 174, 71, 0.34);
-            color: #ffe0a8;
-            background: rgba(241, 174, 71, 0.1);
-        }
-
-        .contact-band {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
-            gap: 28px;
-            align-items: center;
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            padding: 32px;
-            background:
-                linear-gradient(135deg, rgba(241, 174, 71, 0.1), rgba(49, 208, 170, 0.08)),
-                var(--panel-strong);
-            box-shadow: var(--shadow);
-        }
-
-        .contact-band h2 {
-            margin-bottom: 10px;
-        }
-
-        .contact-band p {
-            color: var(--muted);
-            margin-bottom: 0;
-            max-width: 680px;
-        }
-
-        .toast {
-            position: fixed;
-            left: 50%;
-            bottom: 22px;
-            z-index: 80;
-            transform: translate(-50%, 18px);
-            padding: 12px 16px;
-            border: 1px solid rgba(49, 208, 170, 0.35);
-            border-radius: var(--radius);
-            color: var(--text);
-            background: rgba(13, 17, 20, 0.94);
-            box-shadow: var(--shadow);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            font-weight: 700;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
-        }
-
-        footer {
-            padding: 28px 0 42px;
-            color: var(--dim);
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.82rem;
-            text-align: center;
-        }
-
-        .js .reveal {
-            opacity: 0;
-            transform: translateY(18px);
-            transition: opacity 0.55s ease, transform 0.55s ease;
-        }
-
-        .js .reveal.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (min-width: 760px) {
-            h1 {
-                font-size: 5.2rem;
-            }
-        }
-
-        @media (min-width: 1120px) {
-            h1 {
-                font-size: 6.4rem;
-            }
-        }
-
-        @media (max-width: 920px) {
-            .section-head,
-            .showcase-grid,
-            .contact-band {
-                grid-template-columns: 1fr;
-            }
-
-            .profile-grid,
-            .skills-grid,
-            .plugin-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .contact-actions {
-                justify-content: flex-start;
-            }
-        }
-
-        @media (max-width: 760px) {
-            .wrap {
-                width: min(100% - 28px, var(--max));
-            }
-
-            .nav-inner {
-                height: 66px;
-            }
-
-            .menu-toggle {
-                display: inline-grid;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 78px;
-                left: 14px;
-                right: 14px;
-                display: grid;
-                gap: 6px;
-                padding: 10px;
-                border: 1px solid var(--line);
-                border-radius: var(--radius);
-                background: rgba(12, 14, 17, 0.96);
-                box-shadow: var(--shadow);
-                opacity: 0;
-                pointer-events: none;
-                transform: translateY(-8px);
-                transition: opacity 0.2s ease, transform 0.2s ease;
-            }
-
-            .nav-links.open {
-                opacity: 1;
-                pointer-events: auto;
-                transform: translateY(0);
-            }
-
-            .nav-links a {
-                min-height: 42px;
-            }
-
-            .hero {
-                min-height: 78vh;
-                padding: 96px 0 38px;
-                background-position: 62% center;
-            }
-
-            h1 {
-                font-size: 3rem;
-            }
-
-            .hero-text {
-                font-size: 1rem;
-            }
-
-            .hero-meta,
-            .profile-grid,
-            .skills-grid,
-            .plugin-grid,
-            .work-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
-                padding: 64px 0;
-            }
-
-            .section h2 {
-                font-size: 2rem;
-            }
-
-            .experience-card {
-                grid-template-columns: 58px minmax(0, 1fr);
-                align-items: start;
-            }
-
-            .server-logo {
-                width: 56px;
-                height: 56px;
-            }
-
-            .experience-meta {
-                grid-column: 2;
-                align-items: flex-start;
-                justify-self: start;
-                margin-top: 2px;
-            }
-
-            .contact-band {
-                padding: 24px;
-            }
-
-            .contact-actions .btn,
-            .hero-actions .btn {
-                width: 100%;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-                transition: none !important;
-                animation: none !important;
-            }
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portafolio de kavaxpi, creador de plugins y Network Developer para servidores Minecraft.">
+<title>kavaxpi | Developer de servidores Minecraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script>document.documentElement.classList.add("js")</script>
+<style>
+:root{--obsidian:#000;--graphite:#0e0e0e;--carbon:#1d1d1f;--gradient-carbon:linear-gradient(#1d1d1f,#000 288px);--steel:#333336;--slate:#6e6e73;--ash:#86868b;--porcelain:#f5f5f7;--blue:#0071e3;--link:#2997ff;--cobalt:#0066cc;--r-card:28px;--font:'SF Pro Display','SF Pro Text','Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:60px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--obsidian);color:var(--porcelain);font:400 17px/1.47 var(--font);letter-spacing:-.374px;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}a{color:var(--link);text-decoration:none}h1,h2,h3,p{margin:0}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.wrap{width:min(1180px,calc(100% - 48px));margin:0 auto}
+.nav{position:sticky;top:0;z-index:50;height:44px;background:rgba(0,0,0,.8);-webkit-backdrop-filter:saturate(1.8) blur(20px);backdrop-filter:saturate(1.8) blur(20px)}
+.nav .wrap{height:100%;display:flex;align-items:center;justify-content:space-between}
+.brand{color:var(--porcelain);font-weight:600;font-size:14px;letter-spacing:-.224px}
+.links{display:flex;gap:28px}.links a{color:rgba(255,255,255,.8);font-size:12px;letter-spacing:-.12px;line-height:1.33}.links a:hover{color:#fff}
+.menu{display:none;background:none;border:0;color:var(--porcelain);font-size:16px;cursor:pointer;padding:8px}
+.hero{text-align:center;padding:96px 0 64px}
+.hero .name{font-size:32px;font-weight:600;line-height:1.13;letter-spacing:.128px}
+.hero h1{font-size:clamp(40px,9vw,80px);font-weight:600;line-height:1.05;letter-spacing:-1.2px;margin:12px auto 20px;max-width:14ch}
+.hero p.lead{max-width:640px;margin:0 auto 32px;color:var(--ash);font-size:21px;line-height:1.38;letter-spacing:.231px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:170px;border:1px solid transparent;font:inherit;font-size:17px;font-weight:400;letter-spacing:-.374px;line-height:1.1;cursor:pointer;transition:background .2s,color .2s}
+.pill.blue{background:var(--blue);color:#fff}.pill.blue:hover{background:#0077ed}
+.pill.line{border-color:var(--slate);color:var(--porcelain);background:transparent;border-radius:9999px}.pill.line:hover{background:rgba(255,255,255,.08)}
+.pill.sm{font-size:14px;padding:8px 18px}.pill.off{color:var(--ash);border-color:var(--steel)}
+.frame{position:relative;border-radius:var(--r-card);overflow:hidden;background:var(--carbon)}
+.frame img{width:100%;height:100%;object-fit:cover}
+.cap{position:absolute;left:20px;bottom:20px;padding:8px 16px;border-radius:9999px;background:rgba(51,51,54,.72);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);font-size:14px;letter-spacing:-.224px}
+.hero-frame{aspect-ratio:2/1;margin-top:8px}
+.section{padding:90px 0}.band{background:var(--gradient-carbon)}
+.head{text-align:center;margin:0 auto 48px;max-width:720px}
+.head h2{font-size:clamp(32px,5vw,56px);font-weight:600;line-height:1.07;letter-spacing:-.84px}
+.head p{margin-top:16px;color:var(--ash);font-size:19px;line-height:1.4;letter-spacing:.228px}
+.panel{background:var(--carbon);border-radius:var(--r-card);padding:24px}
+.grid{display:grid;gap:24px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.panel .grid{gap:16px}
+.tile{background:var(--obsidian);border-radius:var(--r-card);padding:28px;display:flex;flex-direction:column;gap:12px}
+.tile.carbon{background:var(--carbon)}
+.tile i{font-size:22px;color:var(--porcelain);margin-bottom:8px}
+.tile h3{font-size:19px;font-weight:600;line-height:1.21;letter-spacing:.228px}
+.tile p{font-size:14px;line-height:1.43;letter-spacing:-.224px;color:var(--ash)}
+.tile .pill{margin-top:auto;align-self:flex-start}.tile p+.pill{margin-top:12px}
+.tile .tile-icon{width:40px;height:40px;object-fit:contain;margin-bottom:8px}
+.stat{align-items:center;text-align:center;padding:36px 28px}
+.stat strong{font-size:28px;font-weight:600;line-height:1;letter-spacing:.196px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.tag{padding:4px 12px;border:1px solid var(--steel);border-radius:9999px;font-size:12px;line-height:1.33;letter-spacing:-.12px;color:var(--porcelain)}
+.tag.dim{color:var(--ash)}
+.rows{border-top:1px solid var(--steel)}
+.row{display:grid;grid-template-columns:56px 1fr auto;gap:20px;align-items:center;padding:20px 0;border-bottom:1px solid var(--steel)}
+.logo{width:56px;height:56px;border-radius:14px;background:var(--carbon);object-fit:contain;overflow:hidden}
+.row h3{font-size:19px;font-weight:600;letter-spacing:.228px;line-height:1.21}
+.row p{font-size:14px;line-height:1.43;letter-spacing:-.224px;color:var(--ash);max-width:62ch;margin-top:4px}
+.role{padding:4px 12px;border:1px solid var(--slate);border-radius:9999px;font-size:12px;font-weight:600;letter-spacing:-.12px;white-space:nowrap}
+.works{display:grid;grid-template-columns:1fr 1fr;gap:24px}.works .frame{aspect-ratio:16/9}.works .wide{grid-column:1/-1;aspect-ratio:2/1}
+.contact{background:#fff;color:var(--carbon);border-radius:var(--r-card);padding:64px 32px;text-align:center}
+.contact h2{font-size:clamp(32px,5vw,48px);font-weight:600;line-height:1.1;letter-spacing:-.24px;max-width:18ch;margin:0 auto 16px}
+.contact p{color:#6e6e73;max-width:560px;margin:0 auto 32px;font-size:19px;line-height:1.4}
+.contact .pill.line{color:var(--carbon);border-color:#d2d2d7}.contact .pill.line:hover{background:#f5f5f7}
+footer{padding:0 0 48px;color:var(--ash);font-size:12px;letter-spacing:-.12px;text-align:center}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);padding:12px 20px;border-radius:9999px;background:rgba(66,66,69,.92);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1000px){.g3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){
+.wrap{width:calc(100% - 32px)}.section{padding:64px 0}.hero{padding:64px 0 40px}
+.menu{display:block}.links{display:none;position:absolute;top:44px;left:0;right:0;flex-direction:column;gap:0;background:#161617;padding:8px 16px 16px;border-radius:0 0 20px 20px}
+.links.open{display:flex}.links a{font-size:17px;padding:12px 0;border-bottom:1px solid var(--steel)}
+.g3,.g2,.works{grid-template-columns:1fr}.works .wide{aspect-ratio:16/9}.hero-frame{aspect-ratio:4/3}
+.panel{padding:12px}.tile{padding:24px}.row{grid-template-columns:48px 1fr}.logo{width:48px;height:48px}.role{grid-column:2;justify-self:start}
+.pill{width:100%;justify-content:center}.tile .pill,.row .pill{width:auto}.contact{padding:48px 20px}.hero p.lead{font-size:19px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+:root{--bg:#18181a;--hi:#2a2a2d;--lo:#09090a;--ease:cubic-bezier(.23,1,.32,1);--up:8px 8px 20px var(--lo),-8px -8px 20px var(--hi);--up-s:5px 5px 12px var(--lo),-5px -5px 12px var(--hi);--in:inset 6px 6px 14px var(--lo),inset -6px -6px 14px var(--hi);--in-s:inset 2px 2px 5px var(--lo),inset -2px -2px 5px var(--hi)}
+body{background:var(--bg)}.band{background:none}
+.nav{background:rgba(24,24,26,.82);box-shadow:0 1px 0 rgba(255,255,255,.04)}
+.panel,.tile,.tile.carbon,.frame,.row,.contact{background:var(--bg);color:var(--porcelain)}
+.panel{box-shadow:var(--in)}.tile,.frame,.row,.contact{box-shadow:var(--up)}.panel .tile{box-shadow:var(--up-s)}
+.contact p{color:var(--ash)}.contact .pill.line{color:var(--porcelain)}
+.tile i,.tile .tile-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:16px;box-shadow:var(--in);font-size:18px}
+.tile .tile-icon{padding:11px}
+.tag,.role{border:0;box-shadow:var(--in-s);padding:5px 12px}
+.rows{border:0}.row{border:0;margin-bottom:16px;padding:16px 20px;border-radius:28px}
+.logo{background:var(--bg);box-shadow:var(--in);padding:6px;border-radius:16px}
+.pill{transition:transform .16s var(--ease),box-shadow .25s var(--ease),background .2s}
+.pill.line,.pill.line:hover{border:0;background:var(--bg);box-shadow:var(--up-s)}
+.pill.blue{box-shadow:var(--up-s),inset 0 1px 0 rgba(255,255,255,.22)}
+.pill:active{transform:scale(.97)}.pill.line:active{box-shadow:var(--in-s)}
+.cap{background:rgba(24,24,26,.72)}
+.bar{position:fixed;top:0;left:0;right:0;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;z-index:60;pointer-events:none}
+.links a.on{color:#fff}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}}
+.js .rv{opacity:0}.js .rv.in{opacity:1;animation:rise .8s var(--ease) backwards;animation-delay:calc(var(--i,0)*80ms)}
+.js .frame img{transform:scale(1.1);transition:transform 1.5s var(--ease)}.js .frame.in img{transform:none}
+@media(hover:hover) and (pointer:fine){.tile,.row{transition:translate .3s var(--ease),box-shadow .3s var(--ease)}.tile:hover,.row:hover{translate:0 -4px}}
+@media(prefers-reduced-motion:reduce){.js .rv{opacity:1}.js .rv.in{animation:none}.js .frame img{transform:none;transition:none}.tile,.row{transition:none}}
+
+@media(min-width:721px){.section{padding:120px 0}.panel{padding:32px}.panel .grid{gap:24px}.tile{padding:40px;min-height:300px;gap:16px}.stat{min-height:0;padding:48px 28px}.row{padding:24px 28px;grid-template-columns:72px 1fr auto;gap:24px}.logo{width:72px;height:72px}}
+.head{margin-bottom:clamp(40px,6vw,72px);max-width:840px}.head h2{font-size:clamp(34px,6vw,68px);letter-spacing:-1.2px}.head p{font-size:clamp(17px,2vw,21px)}
+.tile{position:relative}.tile h3{font-size:clamp(20px,2.2vw,26px)}.tile p{font-size:clamp(14px,1.4vw,16px);line-height:1.55}
+.tile i,.tile .tile-icon{width:56px;height:56px;font-size:22px;border-radius:18px;margin-bottom:12px}.tile .tile-icon{padding:13px}
+.stat strong{font-size:clamp(34px,5vw,56px);letter-spacing:-.5px}.tag{font-size:13px;padding:6px 14px}.row h3{font-size:clamp(19px,2.2vw,24px)}.row p{font-size:15px}.role{font-size:13px;padding:7px 16px}
+.tile::after,.frame::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(280px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.08),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.tile:hover::after,.frame:hover::after{opacity:1}
+.pill{position:relative;overflow:hidden;translate:var(--mx,0) var(--my,0);transition:transform .16s var(--ease),translate .25s var(--ease),box-shadow .25s var(--ease),background .2s}
+.pill.blue::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);translate:-120% 0;transition:translate .7s var(--ease)}.pill.blue:hover::before{translate:120% 0}
+.pill i{transition:transform .3s var(--ease)}.pill:hover i{transform:scale(1.18) rotate(-8deg)}
+.rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.25);transform:scale(0);animation:rip .6s var(--ease) forwards;pointer-events:none}@keyframes rip{to{transform:scale(1);opacity:0}}
+.links a{position:relative}.links a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}.links a:hover::after,.links a.on::after{transform:scaleX(1)}
+.hero{position:relative}.hero .wrap{position:relative;z-index:1}
+.orbs{position:absolute;inset:0;overflow:hidden;pointer-events:none}.orbs i{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(90px);opacity:.16;background:var(--blue);animation:float 16s ease-in-out infinite alternate;will-change:transform}
+.orbs i:nth-child(1){top:-140px;left:-140px}.orbs i:nth-child(2){bottom:8%;right:-180px;background:#7a5cff;animation-duration:21s;animation-delay:-6s}@keyframes float{to{transform:translate(90px,60px) scale(1.15)}}
+.hero-frame img{height:118%;margin-top:-9%}
+@keyframes word{from{opacity:0;transform:translateY(40px);filter:blur(8px)}}
+.js .w{display:inline-block;animation:word .9s var(--ease) backwards;animation-delay:calc(.15s + var(--i)*80ms)}
+.top{position:fixed;right:24px;bottom:24px;width:52px;height:52px;border:0;border-radius:50%;background:var(--bg);box-shadow:var(--up-s);color:var(--porcelain);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease),box-shadow .25s;z-index:70}
+.top.show{opacity:1;transform:none;pointer-events:auto}.top:active{transform:scale(.94);box-shadow:var(--in-s)}
+.top svg{position:absolute;inset:0;transform:rotate(-90deg)}.top circle{fill:none;stroke-width:2}.top .trk{stroke:rgba(255,255,255,.07)}.top .prg{stroke:var(--blue);stroke-linecap:round;stroke-dasharray:144.5;stroke-dashoffset:144.5}
+.top i{transition:translate .3s var(--ease)}.top:hover i{translate:0 -3px}
+.follower{position:fixed;left:0;top:0;z-index:90;pointer-events:none;opacity:0;transition:opacity .25s}.follower.on{opacity:1}
+.fi{width:64px;height:64px;border-radius:50%;background:var(--bg);box-shadow:var(--up-s);display:grid;place-items:center;transition:transform .3s var(--ease)}.fi img{width:62%;height:62%;object-fit:contain;border-radius:10px}.follower.big .fi{transform:scale(1.3)}
+@media(hover:hover) and (pointer:fine){.tile,.frame{transition:transform .25s var(--ease),translate .3s var(--ease),box-shadow .3s var(--ease)}.tile i,.logo{transition:transform .35s var(--ease)}.tile:hover i{transform:scale(1.1) rotate(-4deg)}.row:hover .logo{transform:scale(1.08) rotate(-4deg)}}
+@media(max-width:720px){.links a::after{display:none}.top{right:16px;bottom:16px}.orbs i{width:320px;height:320px}}
+@media(prefers-reduced-motion:reduce){.orbs i,.js .w,.rip{animation:none}.pill{translate:none}}
+</style>
 </head>
 <body>
-    <nav class="site-nav" aria-label="Navegacion principal">
-        <div class="wrap nav-inner">
-            <a class="brand" href="#inicio" aria-label="Ir al inicio">
-                <span class="brand-mark"><i class="fa-solid fa-cube"></i></span>
-                <span>@kavaxpii</span>
-            </a>
+<div class="bar"></div>
+<nav class="nav" aria-label="Navegación principal"><div class="wrap">
+<a class="brand" href="#inicio">kavaxpi</a>
+<button class="menu" type="button" aria-label="Abrir menú" aria-controls="links" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+<div class="links" id="links"><a href="#perfil">Perfil</a><a href="#habilidades">Habilidades</a><a href="#experiencia">Experiencia</a><a href="#plugins">Plugins</a><a href="#trabajos">Trabajos</a><a href="#contacto">Contacto</a></div>
+</div></nav>
+<main id="inicio">
+<section class="hero"><div class="wrap">
+<p class="name">kavaxpi</p>
+<h1>Servidores Minecraft, bien configurados.</h1>
+<p class="lead">Creo, configuro y optimizo servidores con foco en BoxPvP, lobbies, rangos globales y configuraciones únicas para comunidades activas.</p>
+<div class="actions"><a class="pill blue" href="mailto:kavaxpidev@gmail.com">Contactar</a><a class="pill line" href="#experiencia">Ver experiencia</a></div>
+<div class="panel" style="margin-top:24px"><div class="grid g3"><div class="tile stat"><strong>10+</strong><p>Servidores</p></div><div class="tile stat"><strong>100+</strong><p>Configuraciones creadas</p></div><div class="tile stat"><strong>k4vxDev</strong><p>Usuario en Minecraft</p></div></div></div>
+</div></section>
+<section class="section band" id="perfil"><div class="wrap">
+<div class="head"><h2>Perfil de developer Minecraft.</h2><p>Desarrollador y staff con experiencia en redes Minecraft. Construyo modalidades claras, mantengo plugins bien configurados y resuelvo problemas técnicos sin romper la experiencia del jugador.</p></div>
+<div class="grid g3"><article class="tile "><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i><h3>Configuraciones</h3><p>Permisos, menús, tabs, sistemas de lobby, ítems ejecutables y setups listos para producción.</p></article><article class="tile "><i class="fa-solid fa-diagram-project" aria-hidden="true"></i><h3>Sistema de network</h3><p>Bases con Velocity o BungeeCord, Paper/Purpur y configuración DNS/SRV para conexiones estables.</p></article><article class="tile "><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><h3>Staff y operaciones</h3><p>Moderación, gestión de sanciones, revisión de bugs y soporte técnico para equipos de administración.</p></article></div></div></section>
+<section class="section" id="habilidades"><div class="wrap">
+<div class="head"><h2>Dónde puedo aportar.</h2><p>Lo que puedo hacer de forma directa dentro de un servidor o una network.</p></div>
+<div class="panel"><div class="grid g3"><article class="tile "><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i><h3>Modalidades</h3><p>Especialidad en modalidades competitivas y servidores de comunidad.</p><div class="tags"><span class="tag">BoxPvP</span><span class="tag dim">Lobbies</span><span class="tag dim">Gens</span></div></article><article class="tile "><i class="fa-solid fa-plug-circle-bolt" aria-hidden="true"></i><h3>Plugins y configs</h3><p>Configuraciones limpias, mantenibles y listas para iterar con el equipo.</p><div class="tags"><span class="tag">LuckPerms</span><span class="tag dim">DeluxeHub</span><span class="tag dim">TAB</span><span class="tag dim">Skript</span><span class="tag dim">ItemExecutable</span><span class="tag dim">Akropolis</span><span class="tag dim">Y más</span></div></article><article class="tile "><i class="fa-solid fa-network-wired" aria-hidden="true"></i><h3>Infraestructura</h3><p>Preparación técnica para redes con múltiples servidores y rutas de conexión.</p><div class="tags"><span class="tag">Velocity</span><span class="tag dim">BungeeCord</span><span class="tag dim">Paper/Purpur</span><span class="tag dim">DNS/SRV</span></div></article><article class="tile "><i class="fa-solid fa-laptop-code" aria-hidden="true"></i><h3>Lenguajes de programación</h3><p>Base técnica para crear herramientas, páginas y automatizaciones de soporte.</p><div class="tags"><span class="tag">Java</span><span class="tag dim">Python</span><span class="tag dim">HTML</span><span class="tag dim">CSS</span><span class="tag dim">Node.js</span></div></article><article class="tile "><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i><h3>Soporte técnico</h3><p>Seguimiento de tickets, corrección de bugs, revisión de permisos y control de calidad.</p><div class="tags"><span class="tag dim">Tickets</span><span class="tag dim">Tester</span><span class="tag dim">Moderación</span></div></article><article class="tile "><i class="fa-solid fa-map" aria-hidden="true"></i><h3>Builds y mapas</h3><p>Diseño y creación de estructuras y mapas de BoxPvP.</p><div class="tags"><span class="tag dim">Spawn</span><span class="tag dim">Zonas PvP</span><span class="tag dim">Mapas</span></div></article></div></div></div></section>
+<section class="section band" id="experiencia"><div class="wrap">
+<div class="head"><h2>Servidores donde he trabajado.</h2><p>Proyectos, roles y responsabilidades en comunidades de Minecraft.</p></div>
+<div class="rows"><article class="row"><img class="logo" src="img/Mineblash.png" alt="Logo de Mineblash" loading="lazy"><div><h3>Mineblash</h3><p>Socio fundador con apoyo económico y técnico. Mantengo configuraciones y desarrollo como Developer principal.</p></div><span class="role">Founder</span></article><article class="row"><img class="logo" src="img/minelux.png" alt="Logo de Minelux" loading="lazy"><div><h3>Minelux</h3><p>Inicié como Developer y pasé a Owner, liderando las decisiones técnicas y el desarrollo del servidor.</p></div><span class="role">Owner</span></article><article class="row"><img class="logo" src="img/nexu.webp" alt="Logo de NexusMC" loading="lazy"><div><h3>NexusMC</h3><p>Corrección de bugs, creación de selectores de modalidades y soporte técnico constante para el equipo.</p></div><span class="role">Developer</span></article><article class="row"><img class="logo" src="img/memenight.webp" alt="Logo de MineNight" loading="lazy"><div><h3>MineNight</h3><p>Tres meses de trabajo técnico, configuraciones y apoyo operativo para mejorar la estabilidad del servidor.</p></div><span class="role">Developer</span></article><article class="row"><img class="logo" src="img/valky.png" alt="Logo de Valkyrian" loading="lazy"><div><h3>Valkyrian</h3><p>Configuraciones personalizadas, sistemas de rangos globales y gestión de plugins.</p></div><span class="role">Developer</span></article><article class="row"><img class="logo" src="img/minepet.webp" alt="Logo de MinePet" loading="lazy"><div><h3>MinePet</h3><p>Desarrollo de mapas y configuraciones personalizadas según los requisitos del servidor.</p></div><span class="role">Developer</span></article><article class="row"><img class="logo" src="img/eskmc.png" alt="Logo de EskMC" loading="lazy"><div><h3>EskMC</h3><p>Configuración de rangos globales, organización de la jerarquía y apoyo en el desarrollo de modalidades.</p></div><span class="role">Developer</span></article><article class="row"><img class="logo" src="img/keni.webp" alt="Logo de Kenibox" loading="lazy"><div><h3>Kenibox</h3><p>Ascenso de Helper a Administrador. Gestión de sanciones, revisión de apelaciones y apoyo en nuevas modalidades.</p></div><span class="role">Admin</span></article><article class="row"><img class="logo" src="img/minesplash.webp" alt="Logo de MineSplash" loading="lazy"><div><h3>MineSplash</h3><p>Moderación dentro del servidor, soporte a la comunidad y gestión de tickets.</p></div><span class="role">Sr Mod</span></article><article class="row"><img class="logo" src="img/mineback.webp" alt="Logo de Mineback" loading="lazy"><div><h3>Mineback</h3><p>Atención de tickets en Discord y gestión de muteos en Minecraft para mantener una comunidad ordenada.</p></div><span class="role">Helper</span></article><article class="row"><img class="logo" src="img/chow.png" alt="Logo de Chowbox" loading="lazy"><div><h3>Chowbox</h3><p>Administración de servidores. Fue una etapa corta, pero aprendí mucho.</p></div><span class="role">Helper</span></article></div></div></section>
+<section class="section" id="plugins"><div class="wrap">
+<div class="head"><h2>Plugins propios.</h2><p>Herramientas creadas para mejorar eventos, utilidad y experiencia dentro de una network.</p></div>
+<div class="grid g3"><article class="tile carbon"><img class="tile-icon" src="img/totem.png" alt=""><h3>KavaTotems</h3><p>Práctica de popeo de totems con inventarios infinitos y totems aleatorios. Incluye inventario lleno y velocidades configurables, de más lento a más rápido.</p><a class="pill line sm off" href="proximamente.html">Próximamente</a></article><article class="tile carbon"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i><h3>KavaEvents</h3><p>Eventos PvP automatizados y aleatorios con tiempos, duración, recompensas y mensajes configurables. Incluye cuenta regresiva, PlaceholderAPI, colores HEX, recarga en vivo y control manual.</p><a class="pill blue sm" href="https://builtbybit.com/resources/kavaevents-events-plugins.115622/" target="_blank" rel="noopener">Ver plugin</a></article><article class="tile carbon"><img class="tile-icon" src="img/cofre.png" alt=""><h3>KavaChest</h3><p>Cofres ilimitados con recompensas configurables y probabilidades del 0.1% al 100%. Soporta cabezas Base64, lore, encantamientos, idiomas ES/EN, respawn configurable, animación de TNT y reparto de loot entre cofres.</p><a class="pill line sm off" href="proximamente.html">Próximamente</a></article></div></div></section>
+<section class="section band" id="trabajos"><div class="wrap">
+<div class="head"><h2>Trabajos y configuraciones.</h2><p>Capturas de mapas, menús y sistemas que he desarrollado, y evidencia de mi paso por estos servidores.</p></div>
+<div class="works"><figure class="frame " style="margin:0"><img src="img/trabajo2.webp" alt="Lobby de MinePet con personajes de Mario y una máquina arcade" loading="lazy"><figcaption class="cap">MinePet · Lobby</figcaption></figure><figure class="frame " style="margin:0"><img src="img/trabajo3.webp" alt="Sala con murales y esculturas de Cuphead construidos en bloques" loading="lazy"><figcaption class="cap">Mapa temático</figcaption></figure><figure class="frame wide" style="margin:0"><img src="img/trabajo4.webp" alt="Captura en MineSplash con scoreboard, tablist y rango Sr Mod" loading="lazy"><figcaption class="cap">MineSplash · Sr Mod</figcaption></figure></div></div></section>
+<section class="section" id="contacto"><div class="wrap"><div class="contact">
+<h2>Disponible para setups, soporte y desarrollo.</h2>
+<p>Si necesitas ayuda con una network, una modalidad nueva o una configuración más profesional, escríbeme por correo, Discord o Instagram.</p>
+<div class="actions"><a class="pill blue" href="mailto:kavaxpidev@gmail.com">Enviar correo</a>
+<button class="pill line" type="button" data-copy="kavaxpii"><i class="fa-brands fa-discord"></i> Copiar Discord</button>
+<a class="pill line" href="https://www.instagram.com/k4vxpi/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a></div>
+</div></div></section>
+</main>
+<footer><div class="wrap">Chile · Config Full Stack · 2026</div></footer>
+<button class="top" type="button" aria-label="Volver al inicio"><svg viewBox="0 0 52 52" aria-hidden="true"><circle class="trk" cx="26" cy="26" r="23"/><circle class="prg" cx="26" cy="26" r="23"/></svg><i class="fa-solid fa-arrow-up"></i></button>
+<div class="toast" role="status" aria-live="polite"></div>
+<script>
+const btn=document.querySelector(".menu"),links=document.querySelector("#links"),toast=document.querySelector(".toast");
+const setMenu=o=>{links.classList.toggle("open",o);btn.setAttribute("aria-expanded",String(o));btn.innerHTML=o?'<i class="fa-solid fa-xmark"></i>':'<i class="fa-solid fa-bars"></i>'};
+btn.addEventListener("click",()=>setMenu(!links.classList.contains("open")));
+links.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
+const say=m=>{toast.textContent=m;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2200)};
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{const v=b.dataset.copy;try{await navigator.clipboard.writeText(v);say("Discord copiado: "+v)}catch(e){say("Mi Discord: "+v)}}));
 
-            <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="nav-links" aria-expanded="false">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+const rm=matchMedia("(prefers-reduced-motion:reduce)").matches,bar=document.querySelector(".bar");
+const items=[...document.querySelectorAll(".hero .wrap>*,.head,.tile,.row,.frame:not(.hero-frame),.contact")],cnt=new Map;
+items.forEach(e=>{const p=e.parentElement,n=cnt.get(p)||0;cnt.set(p,n+1);e.style.setProperty("--i",n%4);e.classList.add("rv")});
+document.querySelectorAll(".frame").forEach(f=>f.classList.add("rv"));
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(!x.isIntersecting)return;const e=x.target;e.classList.add("in");io.unobserve(e);e.querySelectorAll(".stat strong").forEach(count)}),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+function count(el){const t=el.textContent,m=t.match(/^(\d+)(.*)$/);if(!m||rm)return;const n=+m[1],t0=performance.now();(function f(now){const k=Math.min((now-t0)/900,1),v=Math.round(n*(1-Math.pow(1-k,4)));el.textContent=v+m[2];if(k<1)requestAnimationFrame(f)})(t0)}
+let tk=0;addEventListener("scroll",()=>{if(tk)return;tk=requestAnimationFrame(()=>{tk=0;bar.style.transform="scaleX("+scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)+")"})},{passive:true});
+const spy=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)links.querySelectorAll("a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+x.target.id))}),{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("section[id]").forEach(s=>spy.observe(s));
 
-            <div class="nav-links" id="nav-links">
-                <a href="#perfil"><i class="fa-solid fa-user-gear"></i> Perfil</a>
-                <a href="#habilidades"><i class="fa-solid fa-code"></i> Habilidades</a>
-                <a href="#plugins"><i class="fa-solid fa-puzzle-piece"></i> Plugins</a>
-                <a href="#trabajos"><i class="fa-solid fa-image"></i> Trabajos</a>
-                <a href="#experiencia"><i class="fa-solid fa-server"></i> Experiencia</a>
-                <a href="#contacto"><i class="fa-solid fa-paper-plane"></i> Contacto</a>
-            </div>
-        </div>
-    </nav>
+const fine=matchMedia("(hover:hover) and (pointer:fine)").matches,top=document.querySelector(".top"),h1=document.querySelector(".hero h1"),hi=document.querySelector(".hero-frame img");
+h1.classList.remove("rv");io.unobserve(h1);h1.innerHTML=h1.textContent.split(" ").map((w,i)=>'<span class="w" style="--i:'+i+'">'+w+'</span>').join(" ");
+document.querySelector(".hero").insertAdjacentHTML("afterbegin",'<div class="orbs"><i></i><i></i></div>');
+top.addEventListener("click",()=>scrollTo({top:0,behavior:rm?"auto":"smooth"}));
+let t2=0;const prg=top.querySelector(".prg");
+function onScroll(){t2=0;const p=scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight);prg.style.strokeDashoffset=144.5*(1-p);top.classList.toggle("show",scrollY>600);
+if(hi&&!rm){const r=hi.parentElement.getBoundingClientRect(),l=r.height*.08;hi.style.translate="0 "+Math.max(-l,Math.min(l,(r.top+r.height/2-innerHeight/2)*-.08))+"px"}}
+addEventListener("scroll",()=>{if(!t2)t2=requestAnimationFrame(onScroll)},{passive:true});onScroll();
+document.addEventListener("click",e=>{const p=e.target.closest(".pill");if(!p||rm)return;const r=p.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.2,s=document.createElement("span");s.className="rip";s.style.cssText="width:"+d+"px;height:"+d+"px;left:"+(e.clientX-r.left-d/2)+"px;top:"+(e.clientY-r.top-d/2)+"px";p.append(s);setTimeout(()=>s.remove(),600)});
+if(fine&&!rm){
+document.querySelectorAll(".pill").forEach(p=>{p.addEventListener("pointermove",e=>{const r=p.getBoundingClientRect();p.style.setProperty("--mx",((e.clientX-r.left)/r.width-.5)*10+"px");p.style.setProperty("--my",((e.clientY-r.top)/r.height-.5)*8+"px")});p.addEventListener("pointerleave",()=>{p.style.removeProperty("--mx");p.style.removeProperty("--my")})});
+document.querySelectorAll(".frame,.tile").forEach(el=>{const m=el.classList.contains("frame")?5:4;el.addEventListener("pointermove",e=>{const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;el.style.transform="perspective(1000px) rotateX("+(.5-py)*m*2+"deg) rotateY("+(px-.5)*m*2+"deg)";el.style.setProperty("--gx",px*100+"%");el.style.setProperty("--gy",py*100+"%")});el.addEventListener("pointerleave",()=>{el.style.transform=""})});
+const FOLLOW="img/totem.png",f=document.createElement("div");f.className="follower";f.innerHTML='<div class="fi"><img alt="" src="'+FOLLOW+'"></div>';document.body.append(f);
+const im=f.querySelector("img");let x=-100,y=-100,tx=-100,ty=-100;
+addEventListener("pointermove",e=>{tx=e.clientX;ty=e.clientY;f.classList.add("on");const r=e.target.closest(".row"),lg=r&&r.querySelector(".logo"),src=lg?lg.getAttribute("src"):FOLLOW;if(im.getAttribute("src")!==src)im.setAttribute("src",src);f.classList.toggle("big",!!e.target.closest("a,button"))});
+document.documentElement.addEventListener("mouseleave",()=>f.classList.remove("on"));
+(function loop(){x+=(tx-x)*.14;y+=(ty-y)*.14;f.style.transform="translate3d("+(x+20)+"px,"+(y+20)+"px,0) rotate("+Math.max(-25,Math.min(25,(tx-x)*.4))+"deg)";requestAnimationFrame(loop)})()}
 
-    <main id="inicio">
-        <section class="hero">
-            <div class="wrap">
-                <div class="hero-content">
-                    <span class="eyebrow"><i class="fa-solid fa-terminal"></i>Config Mc</span>
-                    <h1>Hola, soy <span class="hero-name">kavaxpi</span></h1>
-                    <p class="hero-text">
-                        Creo, configuro y optimizo servidores Minecraft con enfoque en BoxPvP, lobbies,
-                        rangos globales y configuraciones unicas para comunidades activas.
-                    </p>
-
-                    <div class="hero-actions">
-                        <a class="btn" href="mailto:kavaxpidev@gmail.com">
-                            <i class="fa-solid fa-envelope"></i>
-                            Contactar
-                        </a>
-                        <a class="btn secondary" href="#experiencia">
-                            <i class="fa-solid fa-layer-group"></i>
-                            Ver experiencia
-                        </a>
-                    </div>
-
-                    <div class="hero-meta" aria-label="Resumen profesional">
-                        <div class="metric">
-                            <strong>10+</strong>
-                            <span>servidores</span>
-                        </div>
-                        <div class="metric">
-                            <strong>100+</strong>
-                            <span>Configuraciónes creadas</span>
-                        </div>
-                        <div class="metric">
-                            <strong>MC: k4vxDev</strong>
-                            <span>Nicks</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="perfil">
-            <div class="wrap">
-                <div class="section-head reveal">
-                    <div>
-                        <span class="section-label"><i class="fa-solid fa-id-badge"></i> Perfil</span>
-                        <h2>Perfil de developer 
-                            MC.</h2>
-                    </div>
-                    <p class="section-intro">
-                        Soy desarrollador y staff con experiencia en redes Minecraft. Mi foco esta en
-                        construir modalidades claras, mantener plugins bien configurados y resolver
-                        problemas tecnicos sin romper la experiencia del jugador.
-                    </p>
-                </div>
-
-                <div class="profile-grid">
-                    <article class="profile-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-                        <h3>Configuraciones </h3>
-                        <p>Trabajo con permisos, menus, tabs, sistemas de lobby, items ejecutables y setups pensados para produccion.</p>
-                    </article>
-
-                    <article class="profile-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-diagram-project"></i></div>
-                        <h3>Sistema Network</h3>
-                        <p>Implemento bases con Velocity o BungeeCord, Paper/Purpur y configuraciones DNS/SRV para conexiones estables.</p>
-                    </article>
-
-                    <article class="profile-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h3>Staff y operaciones</h3>
-                        <p>Apoyo en moderacion, gestion de sanciones, revision de bugs y soporte tecnico para equipos de administracion.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="habilidades">
-            <div class="wrap">
-                <div class="section-head reveal">
-                    <div>
-                        <span class="section-label"><i class="fa-solid fa-code"></i> Habilidades</span>
-                        <h2>Staff/Config enfocado en Mc, configuracion.</h2>
-                    </div>
-                    <p class="section-intro">
-                        La idea no es llenar un portafolio: es mostrar donde puedo aportar de forma directa
-                        dentro de un servidor o network.
-                    </p>
-                </div>
-
-                <div class="skills-grid">
-                    <article class="skill-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-fire-flame-curved"></i></div>
-                        <h3>Modalidades</h3>
-                        <p>Especialidad en modalidades competitivas y servidores </p>
-                        <div class="tag-row">
-                            <span class="tag hot">BoxPvP</span>
-                            <span class="tag">Lobbies</span>
-                            <span class="tag">Gens</span>
-                        </div>
-                    </article>
-
-                    <article class="skill-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-plug-circle-bolt"></i></div>
-                        <h3>Plugins y configs</h3>
-                        <p>Configuraciones limpias, mantenibles y listas para iterar con el equipo.</p>
-                        <div class="tag-row">
-                            <span class="tag hot">LuckPerms</span>
-                            <span class="tag">DeluxeHub</span>
-                            <span class="tag">TAB</span>
-                            <span class="tag">Skript</span>
-                            <span class="tag">ItemExecutable</span>
-                            <span class="tag">Akropolis</span>
-                            <span class="tag">Etc...</span>
-                        </div>
-                    </article>
-
-                    <article class="skill-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-network-wired"></i></div>
-                        <h3>Infraestructura</h3>
-                        <p>Preparacion tecnica para redes con multiples servidores y rutas de conexion.</p>
-                        <div class="tag-row">
-                            <span class="tag hot">Velocity</span>
-                            <span class="tag">BungeeCord</span>
-                            <span class="tag">Paper/Purpur</span>
-                            <span class="tag">DNS/SRV</span>
-                        </div>
-                    </article>
-
-                    <article class="skill-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-laptop-code"></i></div>
-                        <h3>Lenguajes De Progamación</h3>
-                        <p>Base tecnica para crear herramientas, paginas y automatizaciones de soporte.</p>
-                        <div class="tag-row">
-                            <span class="tag hot">Java</span>
-                            <span class="tag">Python</span>
-                            <span class="tag">HTML</span>
-                            <span class="tag">CSS</span>
-                            <span class="tag">Node.js</span>
-                        </div>
-                    </article>
-
-                    <article class="skill-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-clipboard-check"></i></div>
-                        <h3>Soporte tecnico</h3>
-                        <p>Seguimiento de tickets, Correcion de bugs, revision de permisos y control de calidad.</p>
-                        <div class="tag-row">
-                            <span class="tag">Tickets</span>
-                            <span class="tag">Tester</span>
-                            <span class="tag">Moderacion</span>
-                        </div>
-                    </article>
-
-                    <article class="skill-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-map"></i></div>
-                        <h3>Builds y mapas</h3>
-                        <p>Diseño y creación de estructuras, mapas de boxpvp y mas.</p>
-                        <div class="tag-row">
-                            <span class="tag">Spawn</span>
-                            <span class="tag">Zonas PvP</span>
-                            <span class="tag">Mapas</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="experiencia">
-            <div class="wrap">
-                <div class="section-head reveal">
-                    <div>
-                        <span class="section-label"><i class="fa-solid fa-server"></i> Experiencia</span>
-                        <h2>Servidores donde he trabajado o colaborado.</h2>
-                    </div>
-                    <p class="section-intro">
-                        Resumen de proyectos, roles y responsabilidades. Reescrito con tono profesional
-                        para que funcione mejor como portafolio publico.
-                    </p>
-                </div>
-
-                <div class="experience-list">
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/Mineblash.png" alt="Mineblash" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">MINE<br>BLASH</span>
-                        </div>
-                        <div>
-                            <h3>Mineblash</h3>
-                            <p>Socio fundador con apoyo economico y tecnico. Actualmente mantengo configuraciones y desarrollo como Developer principal.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-crown"></i> Founder</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/minelux.png" alt="Minelux" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">LUX</span>
-                        </div>
-                        <div>
-                            <h3>Minelux</h3>
-                            <p>Inicio como Developer y posterior paso a Owner, liderando decisiones tecnicas y desarrollo del servidor.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-user-tie"></i> Owner</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/nexu.webp" alt="NexusMC" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">NEXUS</span>
-                        </div>
-                        <div>
-                            <h3>NexusMC</h3>
-                            <p>Correccion de bugs, creacion de selectores de modalidades y soporte tecnico constante para el equipo.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-code"></i> Developer</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/memenight.png" alt="MineNight" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">NIGHT</span>
-                        </div>
-                        <div>
-                            <h3>MineNight</h3>
-                            <p>Tres meses de trabajo tecnico, configuraciones y apoyo operativo para mejorar estabilidad y experiencia del servidor.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-code"></i> Developer</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/valky.png" alt="Valkyrian" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">VALK</span>
-                        </div>
-                        <div>
-                            <h3>Valkyrian</h3>
-                            <p>Desarrollo de configuraciones personalizadas, sistemas de rangos globales y gestion de plugins.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-code"></i> Developer</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/minepet.png" alt="MinePet" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">PET</span>
-                        </div>
-                        <div>
-                            <h3>MinePet</h3>
-                            <p>Desarrollo de mapas y configuraciones personalizadas adaptadas a los requisitos del servidor.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-code"></i> Developer</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/eskmc.png" alt="EskMC" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">ESK<br>MC</span>
-                        </div>
-                        <div>
-                            <h3>EskMC</h3>
-                            <p>Developer enfocado en la configuracion de rangos globales, organizacion de la jerarquia y apoyo en el desarrollo de modalidades.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-code"></i> Developer</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/keni.png" alt="Kenibox" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">KENI</span>
-                        </div>
-                        <div>
-                            <h3>Kenibox</h3>
-                            <p>Ascenso de Helper a Administrador. Gestion de sanciones, revision de apelaciones y apoyo en nuevas modalidades.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-shield-halved"></i> Admin</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/minesplash.png" alt="MineSplash" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">SPLASH</span>
-                        </div>
-                        <div>
-                            <h3>MineSplash</h3>
-                            <p>SrMod enfocado en moderar dentro del servidor, soporte a la comunidad y gestion tickets.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-shield"></i> Sr Mod</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/mineback.png" alt="Mineback" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">BACK</span>
-                        </div>
-                        <div>
-                            <h3>Mineback</h3>
-                            <p>Trabajo como Helper, atendiendo tickets de Discord y gestionando muteos dentro de Minecraft para mantener una comunidad ordenada.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-headset"></i> Helper</span>
-                    </article>
-
-                    <article class="experience-card reveal">
-                        <div class="server-logo">
-                            <img src="img/chow.png" alt="Chowbox" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-                            <span class="fallback">CHOW</span>
-                        </div>
-                        <div>
-                            <h3>Chowbox</h3>
-                            <p>Enfocado en la administracion de servidores y aunque fue poco mi tiempo en ese servidor aprendi muchas cosas.</p>
-                        </div>
-                        <span class="role"><i class="fa-solid fa-headset"></i> Helper</span>
-                    </article>
-                </div>
-                <h3> Se que son pocos o no muy conocidos pero se les pide que se conformen ya que soy muy poco conocido </h3>
-            </div>
-        </section>
-
-        <section class="section" id="plugins">
-            <div class="wrap">
-                <div class="section-head reveal">
-                    <div>
-                        <span class="section-label"><i class="fa-solid fa-puzzle-piece"></i> Plugins</span>
-                        <h2>Herramientas creadas para servidores Minecraft.</h2>
-                    </div>
-                    <p class="section-intro">
-                        Plugins propios para mejorar eventos, utilidad y experiencia dentro de una network.
-                        Consulta los recursos disponibles o revisa los próximos lanzamientos.
-                    </p>
-                </div>
-
-                <div class="plugin-grid">
-                    <article class="plugin-card reveal">
-                        <div class="icon-box"><img src="img/totem.png" alt="" aria-hidden="true"></div>
-                        <h3>KavaTotems</h3>
-                        <p>Sistema de práctica de popeo de totems con inventarios infinitos y totems aleatorios. Incluye inventario lleno y velocidades configurables, desde más lento hasta más rápido.</p>
-                        <a class="plugin-link" href="proximamente.html"><i class="fa-solid fa-clock"></i> Próximamente</a>
-                    </article>
-
-                    <article class="plugin-card reveal">
-                        <div class="icon-box"><i class="fa-solid fa-calendar-days"></i></div>
-                        <h3>KavaEvents</h3>
-                        <p>Sistema de eventos PvP automatizados y aleatorios, con tiempos, duración, recompensas y mensajes configurables. Incluye cuenta regresiva, PlaceholderAPI, colores HEX, recarga en vivo y control manual.</p>
-                        <a class="plugin-link" href="https://builtbybit.com/resources/kavaevents-events-plugins.115622/" target="_blank" rel="noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver plugin</a>
-                    </article>
-
-                    <article class="plugin-card reveal">
-                        <div class="icon-box"><img src="img/cofre.png" alt="" aria-hidden="true"></div>
-                        <h3>KavaChest</h3>
-                        <p>Crea cofres ilimitados con recompensas configurables y probabilidades del 0.1% al 100%; por defecto, cada ítem tiene 100%. Incluye soporte para cabezas Base64, lore, encantamientos, idiomas ES/EN, respawn configurable, animación de TNT y reparto de loot entre cofres.</p>
-                        <a class="plugin-link" href="proximamente.html"><i class="fa-solid fa-clock"></i> Próximamente</a>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="trabajos">
-            <div class="wrap">
-                <div class="section-head reveal">
-                    <div>
-                        <span class="section-label"><i class="fa-solid fa-image"></i> Trabajos</span>
-                        <h2>Algunos de mis trabajos y configuraciones.</h2>
-                    </div>
-                    <p class="section-intro">
-                        Capturas de pantalla de configuraciones, menus, tablist y sistemas que he desarrollado
-                        para servidores Minecraft Y pruebas de que eh estado en esos servidores.
-                    </p>
-                </div>
-
-                <div class="work-grid">
-                    <article class="work-card reveal">
-                        <div class="work-media">
-                            <img src="img/trabajo.png" alt="Configuración de Servidor Minecraft 1" loading="lazy">
-                            <span class="work-type"><i class="fa-solid fa-image"></i> Captura</span>
-                        </div>
-                    </article>
-
-                    <article class="work-card reveal">
-                        <div class="work-media">
-                            <img src="img/trabajo2.png" alt="Configuración de Servidor Minecraft 2" loading="lazy">
-                            <span class="work-type"><i class="fa-solid fa-image"></i> Captura</span>
-                        </div>
-                    </article>
-
-                    <article class="work-card reveal">
-                        <div class="work-media">
-                            <img src="img/trabajo3.png" alt="z" loading="lazy">
-                            <span class="work-type"><i class="fa-solid fa-image"></i> Captura</span>
-                        </div>
-                    </article>
-
-                    <article class="work-card reveal">
-                        <div class="work-media">
-                            <img src="img/trabajo4.png" alt="Configuración de Servidor Minecraft 4" loading="lazy">
-                            <span class="work-type"><i class="fa-solid fa-image"></i> Captura</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="contacto">
-            <div class="wrap">
-                <div class="contact-band reveal">
-                    <div>
-                        <span class="section-label"><i class="fa-solid fa-paper-plane"></i> Contacto</span>
-                        <h2>Disponible para setups, soporte y desarrollo de servidores.</h2>
-                        <p>
-                            Si necesitas ayuda con una network, una modalidad nueva o una configuracion
-                            que se sienta mas profesional, puedes contactarme por correo o Discord.
-                        </p>
-                    </div>
-                    <div class="contact-actions">
-                        <a class="btn" href="mailto:kavaxpidev@gmail.com">
-                            <i class="fa-solid fa-envelope"></i>
-                            Email
-                        </a>
-                        <button class="btn secondary" type="button" data-copy="kavaxpii">
-                            <i class="fa-brands fa-discord"></i>
-                            Discord
-                        </button>
-                        <a class="btn secondary" href="https://www.instagram.com/k4vxpi/" target="_blank" rel="noreferrer">
-                            <i class="fa-brands fa-instagram"></i>
-                            Instagram
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="wrap">Chile - Config Full stack - 2026</div>
-    </footer>
-
-    <div class="toast" role="status" aria-live="polite" aria-atomic="true">Discord copiado: kavaxpii</div>
-
-    <script>
-        const menuButton = document.querySelector(".menu-toggle");
-        const navLinks = document.querySelector("#nav-links");
-
-        if (menuButton && navLinks) {
-            menuButton.addEventListener("click", () => {
-                const isOpen = navLinks.classList.toggle("open");
-                menuButton.setAttribute("aria-expanded", String(isOpen));
-                menuButton.innerHTML = isOpen
-                    ? '<i class="fa-solid fa-xmark"></i>'
-                    : '<i class="fa-solid fa-bars"></i>';
-            });
-
-            navLinks.querySelectorAll("a").forEach((link) => {
-                link.addEventListener("click", () => {
-                    navLinks.classList.remove("open");
-                    menuButton.setAttribute("aria-expanded", "false");
-                    menuButton.innerHTML = '<i class="fa-solid fa-bars"></i>';
-                });
-            });
-        }
-
-        const revealItems = document.querySelectorAll(".reveal");
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-visible");
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.14 });
-
-        revealItems.forEach((item) => revealObserver.observe(item));
-
-        const toast = document.querySelector(".toast");
-        document.querySelectorAll("[data-copy]").forEach((button) => {
-            button.addEventListener("click", async () => {
-                const value = button.getAttribute("data-copy");
-                try {
-                    await navigator.clipboard.writeText(value);
-                    if (toast) {
-                        toast.classList.add("show");
-                        window.setTimeout(() => toast.classList.remove("show"), 2200);
-                    }
-                } catch (error) {
-                    window.location.href = "mailto:jeicobyamil8@gmail.com";
-                }
-            });
-        });
-    </script>
+</script>
 </body>
 </html>
